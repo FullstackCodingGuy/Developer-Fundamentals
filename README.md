@@ -6,4 +6,6 @@ Concepts are documented here: https://github.com/FullstackCodingGuy/Developer-Fu
 
 ## Architecture
 
-- Clean Architecture Repo - https://github.com/ardalis/CleanArchitecture/tree/main
+### Clean Architecture Repo 
+- https://github.com/ardalis/CleanArchitecture/tree/main
+- https://github.com/amantinband/clean-architecture
