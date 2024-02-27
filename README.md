@@ -2,7 +2,11 @@
 Education material for the developers
 
 
-Concepts are documented here: https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki
+Concepts are documented in the wiki section: https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki
+
+
+General Comparison of various tools/libraries/software - Pros, Cons: https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fundamentals#general-comparison-of-various-toolslibrariessoftware---pros-cons
+
 
 ## Architecture
 
