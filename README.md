@@ -27,3 +27,33 @@ General Comparison of various tools/libraries/software - Pros, Cons: https://git
 - https://dev.to/aaronksaunders/managing-react-state-with-zustand-2e8k
 - https://dev.to/abhi0498/zustand-react-global-state-management-made-easy-lel
 
+# Explore wiki for below topics 
+
+https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki
+
+Angular ‐ New Stuff
+Angular ‐ Signals
+API Development
+API Security
+Architecture
+C# Tips & Tricks
+Caching
+Code Refactoring
+Database
+Design Patterns
+Design Principles
+Do Better Pull Requests
+Essential Nuget Packages
+Fundamentals
+GPTs
+GraphQL
+Logging & Metrics
+Message Queue
+Modernization Strategy
+Practical Scenarios
+React Native ‐ Architecture
+Security
+System Design
+TDD
+UI ‐ Concepts
+What is the difference?
