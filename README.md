@@ -32,28 +32,51 @@ General Comparison of various tools/libraries/software - Pros, Cons: https://git
 https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki
 
 Angular ‐ New Stuff
+
 Angular ‐ Signals
+
 API Development
+
 API Security
+
 Architecture
+
 C# Tips & Tricks
+
 Caching
+
 Code Refactoring
+
 Database
+
 Design Patterns
+
 Design Principles
+
 Do Better Pull Requests
+
 Essential Nuget Packages
+
 Fundamentals
+
 GPTs
+
 GraphQL
+
 Logging & Metrics
+
 Message Queue
+
 Modernization Strategy
+
 Practical Scenarios
+
 React Native ‐ Architecture
+
 Security
+
 System Design
+
 TDD
 UI ‐ Concepts
 What is the difference?
