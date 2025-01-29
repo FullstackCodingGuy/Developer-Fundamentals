@@ -13,6 +13,8 @@ General Comparison of various tools/libraries/software - Pros, Cons: https://git
 - [ ] GitOps
 - [ ] DevSecOps
 - [ ] Automated Deployment
+- [ ] Octant
+- [ ] Observability
 - [ ] Solution Design
 
 ## Architecture
