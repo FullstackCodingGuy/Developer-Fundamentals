@@ -8,6 +8,13 @@ Concepts are documented in the wiki section: https://github.com/FullstackCodingG
 General Comparison of various tools/libraries/software - Pros, Cons: https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fundamentals#general-comparison-of-various-toolslibrariessoftware---pros-cons
 
 
+## Topics
+
+- [ ] GitOps
+- [ ] DevSecOps
+- [ ] Automated Deployment
+- [ ] Solution Design
+
 ## Architecture
 
 ### Clean Architecture Repo 
