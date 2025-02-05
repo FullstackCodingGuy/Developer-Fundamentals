@@ -21,6 +21,9 @@ Education material for the developers
 
 
 ## TL;DR
+<details>
+<summary>Junior to senior developer road map</summary>
+</details>
 
 ![SmartSelect_20250203_191015_LinkedIn](https://github.com/user-attachments/assets/eaa21775-0ef0-4555-af6a-54a6162281a9)
 
