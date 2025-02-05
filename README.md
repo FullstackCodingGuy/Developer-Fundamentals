@@ -8,7 +8,7 @@ Concepts are documented in the wiki section: https://github.com/FullstackCodingG
 General Comparison of various tools/libraries/software - Pros, Cons: https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fundamentals#general-comparison-of-various-toolslibrariessoftware---pros-cons
 
 
-## Topics
+## Todo Topics
 
 - [ ] GitOps
 - [ ] DevSecOps
@@ -16,6 +16,11 @@ General Comparison of various tools/libraries/software - Pros, Cons: https://git
 - [ ] Octant
 - [ ] Observability
 - [ ] Solution Design
+  - [ ] Fault Tolerance - Retry with backkoff
+  - [ ] Fault Tolerance - Circuit Breaker
+  - [ ] How Single Signon (SSO) works
+  - [ ] Performance Optimizations - C#, SQL
+  - [ ] Distributed Transactions - Saga (Choreography, Orchestration)
 
 ## Architecture
 
