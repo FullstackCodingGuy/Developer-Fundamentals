@@ -6,6 +6,8 @@ Education material for the developers
 
 [System Design Landscape](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/System-Design-%E2%80%90-Landscape)
 
+[Cloud Services Comparison](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Cloud-Services-Comparison)
+
 ## Real World Scenarios
 
 - [ ] GitOps
