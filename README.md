@@ -13,7 +13,7 @@ Education material for the developers
 - [ ] GitOps
 - [ ] DevSecOps
 - [ ] Automated Deployment
-  - [ ] Padman
+  - [ ] Podman
   - [ ] Kubernetes
   - [ ] ArgoCD
   - [ ] Rolling Deployment
