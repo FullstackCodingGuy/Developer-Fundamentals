@@ -13,6 +13,9 @@ Education material for the developers
 - [ ] GitOps
 - [ ] DevSecOps
 - [ ] Automated Deployment
+  - [ ] Padman
+  - [ ] Kubernetes
+  - [ ] ArgoCD
   - [ ] Rolling Deployment
   - [ ] Canary Deployment
   - [ ] Blue-Green Deployment
