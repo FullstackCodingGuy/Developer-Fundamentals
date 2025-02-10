@@ -26,7 +26,7 @@ Education material for the developers
 - [ ] High Availability
   - [ ] Load Balancing
   - [ ] Auto Scaling
-  - [ ] Fault Tolerance System - Retry with backkoff
+  - [ ] Fault Tolerance System - Retry with backkoff, [Technical Details](https://github.com/FullstackCodingGuy/Developer-Fundamentals/tree/main/design-patterns/retry-backoff)
   - [ ] Fault Tolerance System - Circuit Breaker
 - [ ] Solution Design
   - [ ] How to make your application resilient
