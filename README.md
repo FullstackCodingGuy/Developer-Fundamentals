@@ -32,7 +32,7 @@ Education material for the developers
   - [ ] How to make your application resilient
   - [ ] How Single Signon (SSO) works
   - [ ] Performance Optimizations - C#, SQL
-  - [ ] Distributed Transactions - Saga (Choreography, Orchestration)
+  - [ ] [Distributed Transactions](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Distributed-Transactions) - Saga (Choreography, Orchestration)
 - [ ] Architecture Style
   - [ ] Frontend
     - [ ] Monolith
