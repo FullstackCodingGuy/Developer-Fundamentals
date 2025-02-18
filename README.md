@@ -26,10 +26,10 @@ Education material for the developers
 - [ ] High Availability
   - [ ] Load Balancing
   - [ ] Auto Scaling
-  - [ ] Fault Tolerance System - Retry with backkoff, [Theory](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fault-Tolerance-%E2%80%90-Retry-with-Backoff), [Technical Details](https://github.com/FullstackCodingGuy/Developer-Fundamentals/tree/main/design-patterns/retry-backoff)
-  - [ ] Fault Tolerance System - Circuit Breaker
 - [ ] Solution Design
   - [ ] How to make your application resilient
+    - [ ] Fault Tolerance System - Retry with backkoff, [Theory](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fault-Tolerance-%E2%80%90-Retry-with-Backoff), [Technical Details](https://github.com/FullstackCodingGuy/Developer-Fundamentals/tree/main/design-patterns/retry-backoff)
+    - [ ] Fault Tolerance System - [Circuit Breaker](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fault-Tolerance-%E2%80%90-Circuit-Breaker) 
   - [ ] How Single Signon (SSO) works
   - [ ] Performance Optimizations - C#, SQL
   - [ ] [Distributed Transactions](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Distributed-Transactions) - Saga (Choreography, Orchestration)
