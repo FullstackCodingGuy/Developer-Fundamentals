@@ -1,0 +1,12 @@
+<div class="task-manager">
+  <input [(ngModel)]="newTask" placeholder="Enter task text" />
+  <button (click)="addTask()">Add Task</button>
+
+  <div *ngFor="let task of tasks">
+    <p>{{ task.text }}</p>
+    <p>Priority: {{ task.priority }}</p>
+    <p>Category: {{ task.category }}</p>
+    <button (click)="switchValidationStrategy('basic')">Basic Validation</button>
+    <button (click)="switchValidationStrategy('priority')">Priority Validation</button>
+  </div>
+</div>
