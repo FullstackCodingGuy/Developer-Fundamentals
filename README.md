@@ -23,9 +23,9 @@ Education material for the developers
 - [ ] Observability
   - [ ] Logging
   - [ ] Monitoring & Alerting
-- [ ] High Availability
+- [ ] [High Availability](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/High-Availability-%7C-Fault-Tolerance-%7C-Durability)
   - [ ] Load Balancing
-  - [ ] Auto Scaling
+  - [ ] [Scaling](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/System-Design-%E2%80%90-Scaling)
 - [ ] Solution Design
   - [ ] How to make your application resilient
     - [ ] Fault Tolerance System - Retry with backkoff, [Theory](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fault-Tolerance-%E2%80%90-Retry-with-Backoff), [Technical Details](https://github.com/FullstackCodingGuy/Developer-Fundamentals/tree/main/design-patterns/retry-backoff)
