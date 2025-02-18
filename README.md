@@ -19,7 +19,7 @@ Education material for the developers
   - [ ] Rolling Deployment
   - [ ] Canary Deployment
   - [ ] Blue-Green Deployment
-- [ ] Octant
+  - [ ] [Octant](https://octant.dev/)
 - [ ] Observability
   - [ ] Logging
   - [ ] Monitoring & Alerting
