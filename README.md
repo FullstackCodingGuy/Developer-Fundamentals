@@ -13,7 +13,7 @@ Education material for the developers
 - [ ] GitOps
 - [ ] DevSecOps
 - [ ] Automated Deployment
-  - [ ] Podman
+  - [ ] [Podman](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Podman)
   - [ ] Kubernetes
   - [ ] ArgoCD
   - [ ] Rolling Deployment
