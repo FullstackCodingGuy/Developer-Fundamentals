@@ -13,20 +13,34 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddResponseCaching();
 
 // ✅ Ensure correct access to configuration
 var configuration = builder.Configuration;
+
+// ✅ Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()   // Log to console
+    .WriteTo.File("logs/api-log.txt", rollingInterval: RollingInterval.Day) // Log to a file (daily rotation)
+    //.WriteTo.Seq("http://localhost:5341")  // Optional: Centralized logging with Seq
+    .Enrich.FromLogContext()
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+// ✅ Replace default logging with Serilog
+builder.Host.UseSerilog();
 
 // ✅ Use proper configuration access for connection string
 var connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? "Data Source=expensemanager.db";
 
 builder.Services.AddDbContext<ExpenseDbContext>(options =>
     options.UseSqlite(connectionString));
+
+builder.Services.AddResponseCaching();
 
 // ✅ Add CORS policy
 // WithOrigins("https://yourfrontend.com") → Restricts access to a specific frontend.
@@ -111,6 +125,9 @@ builder.Services.AddResponseCompression(options =>
 });
 
 var app = builder.Build();
+
+// ✅ Use Serilog Request Logging Middleware
+app.UseSerilogRequestLogging();
 
 // Console.WriteLine(app.Environment.IsDevelopment().ToString());
 Console.WriteLine($"Running in {builder.Environment.EnvironmentName} mode");
