@@ -75,6 +75,13 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
+// Limit Request Size
+// Prevent DoS attacks by limiting payload size.
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/options?view=aspnetcore-9.0
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = 100_000_000;
+});
 
 // Add services to the container
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
@@ -98,7 +105,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Enable Compression to reduce payload size
-builder.Services.AddResponseCompression();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
 
 var app = builder.Build();
 
@@ -134,5 +144,18 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ExpenseDbContext>();
     dbContext.Database.Migrate();
 }
+
+
+// Prevent Cross-Site Scripting (XSS) & Clickjacking
+// Use Content Security Policy (CSP) and X-Frame-Options:
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
+    await next();
+});
+
 
 app.Run();
