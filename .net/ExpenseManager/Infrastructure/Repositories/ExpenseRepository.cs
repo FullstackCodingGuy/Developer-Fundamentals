@@ -1,48 +1,51 @@
 using ExpenseManager.Application.Interfaces;
 using ExpenseManager.Domain.Entities;
 using System.Collections.Generic;
-using System.Collections;
 using System.Threading.Tasks;
 using System.Linq;
+using ExpenseManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 namespace ExpenseManager.Infrastructure.Repositories
 {
     public class ExpenseRepository : IExpenseRepository
     {
-        private readonly List<Expense> _expenses = new();
+        private readonly ExpenseDbContext _context;
 
-        public async Task<List<Expense>> GetAllAsync() => await Task.FromResult(_expenses);
+        public ExpenseRepository(ExpenseDbContext context)
+        {
+            _context = context;
+        }
 
-        public async Task<Expense?> GetByIdAsync(int id) => await Task.FromResult(_expenses.FirstOrDefault(e => e.Id == id));
+        public async Task<List<Expense>> GetAllAsync()
+        {
+            return await _context.Expenses.ToListAsync();
+        }
+
+        public async Task<Expense?> GetByIdAsync(int id)
+        {
+            return await _context.Expenses.FindAsync(id);
+        }
 
         public async Task AddAsync(Expense expense)
         {
-            expense.Id = _expenses.Count + 1;
-            _expenses.Add(expense);
-            await Task.CompletedTask;
+            _context.Expenses.Add(expense);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Expense expense)
         {
-            var existingExpense = _expenses.FirstOrDefault(e => e.Id == expense.Id);
-            if (existingExpense != null)
-            {
-                existingExpense.Title = expense.Title;
-                existingExpense.Description = expense.Description;
-                existingExpense.Date = expense.Date;
-                existingExpense.Amount = expense.Amount;
-                existingExpense.Category = expense.Category;
-            }
-            await Task.CompletedTask;
+            _context.Expenses.Update(expense);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var expense = _expenses.FirstOrDefault(e => e.Id == id);
+            var expense = await _context.Expenses.FindAsync(id);
             if (expense != null)
             {
-                _expenses.Remove(expense);
+                _context.Expenses.Remove(expense);
+                await _context.SaveChangesAsync();
             }
-            await Task.CompletedTask;
         }
     }
 }

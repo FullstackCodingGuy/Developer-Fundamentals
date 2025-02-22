@@ -5,9 +5,21 @@ using Microsoft.Extensions.Hosting;
 using ExpenseManager.Application.Interfaces;
 using ExpenseManager.Application.Services;
 using ExpenseManager.Infrastructure.Repositories;
+using ExpenseManager.Infrastructure.Persistence;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ✅ Ensure correct access to configuration
+var configuration = builder.Configuration;
+
+// ✅ Use proper configuration access for connection string
+var connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? "Data Source=expensemanager.db";
+
+builder.Services.AddDbContext<ExpenseDbContext>(options =>
+    options.UseSqlite(connectionString));
+
 
 // Add services to the container
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
@@ -31,4 +43,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+
+// Ensure Database is Created
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ExpenseDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.Run();
