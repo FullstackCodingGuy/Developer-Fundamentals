@@ -28,6 +28,30 @@ var connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? "
 builder.Services.AddDbContext<ExpenseDbContext>(options =>
     options.UseSqlite(connectionString));
 
+// ✅ Add CORS policy
+// WithOrigins("https://yourfrontend.com") → Restricts access to a specific frontend.
+// AllowAnyMethod() → Allows all HTTP methods (GET, POST, PUT, DELETE, etc.).
+// AllowAnyHeader() → Allows any request headers.
+// AllowCredentials() → Enables sending credentials like cookies, tokens (⚠️ Only works with a specific origin, not *).
+// AllowAnyOrigin() → Enables unrestricted access (only for local testing).
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("https://yourfrontend.com") // Replace with your frontend URL
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // If authentication cookies/tokens are needed
+    });
+
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin() // Use only for testing; NOT recommended for production
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Use Rate Limiting
 // Prevent API abuse by implementing rate limiting
@@ -81,11 +105,16 @@ var app = builder.Build();
 // Console.WriteLine(app.Environment.IsDevelopment().ToString());
 Console.WriteLine($"Running in {builder.Environment.EnvironmentName} mode");
 
-if (app.Environment.IsDevelopment())
+var IsDevelopment = app.Environment.IsDevelopment();
+
+if (IsDevelopment)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// ✅ Use CORS Middleware before controllers
+app.UseCors(IsDevelopment ? "AllowAll" : "AllowSpecificOrigins"); // Apply the selected CORS policy
 
 app.UseResponseCaching();
 
