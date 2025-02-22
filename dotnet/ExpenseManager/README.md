@@ -363,6 +363,225 @@ public class ExpenseNotifier
 | **Chain of Responsibility** | Expense validation | Modular validation steps |
 | **Observer** | Notify other services | Enables event-driven architecture |
 
+---
+
+### Applying Decorator Pattern
+
+<details>
+<summary>read</summary>
+
+
+The **Decorator Pattern** is beneficial in the **Expense Manager API** when you need to **extend the behavior of existing services without modifying them directly**. In this use case, it can help with:  
+
+### 🔹 **Where Can We Use the Decorator Pattern?**
+1. **Logging Decorator** – Log every expense-related operation.  
+2. **Caching Decorator** – Cache frequent read operations (e.g., fetching expenses).  
+3. **Validation Decorator** – Add validation rules dynamically.  
+4. **Security/Authorization Decorator** – Check user roles before executing a request.  
+5. **Transaction Decorator** – Ensure database consistency.  
+
+---
+
+## **1️⃣ Logging Decorator** (Example)  
+Instead of adding logging directly into `ExpenseRepository`, we **wrap** it in a decorator.  
+
+### ✅ **Implementation**
+```csharp
+public class ExpenseRepositoryLoggingDecorator : IExpenseRepository
+{
+    private readonly IExpenseRepository _inner;
+    private readonly ILogger<ExpenseRepositoryLoggingDecorator> _logger;
+
+    public ExpenseRepositoryLoggingDecorator(IExpenseRepository inner, ILogger<ExpenseRepositoryLoggingDecorator> logger)
+    {
+        _inner = inner;
+        _logger = logger;
+    }
+
+    public async Task<IEnumerable<Expense>> GetAllAsync()
+    {
+        _logger.LogInformation("Fetching all expenses.");
+        var result = await _inner.GetAllAsync();
+        _logger.LogInformation($"Retrieved {result.Count()} expenses.");
+        return result;
+    }
+
+    public async Task<Expense> GetByIdAsync(int id)
+    {
+        _logger.LogInformation($"Fetching expense with ID {id}.");
+        return await _inner.GetByIdAsync(id);
+    }
+
+    public async Task AddAsync(Expense expense)
+    {
+        _logger.LogInformation($"Adding expense: {expense.Title}, Amount: {expense.Amount}");
+        await _inner.AddAsync(expense);
+        _logger.LogInformation("Expense added successfully.");
+    }
+
+    public async Task UpdateAsync(Expense expense)
+    {
+        _logger.LogInformation($"Updating expense ID {expense.Id}.");
+        await _inner.UpdateAsync(expense);
+        _logger.LogInformation("Expense updated successfully.");
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        _logger.LogInformation($"Deleting expense ID {id}.");
+        await _inner.DeleteAsync(id);
+        _logger.LogInformation("Expense deleted successfully.");
+    }
+}
+```
+### ✅ **Usage**
+Register the decorated repository in **DI container** in `Program.cs`:
+```csharp
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryLoggingDecorator>();
+```
+
+📌 **Benefits:**  
+✔ **Non-intrusive logging** (no need to modify `ExpenseRepository`)  
+✔ **Extensible** (easily add more behaviors)  
+✔ **Follows Open/Closed Principle** (OCP)  
+
+---
+
+## **2️⃣ Caching Decorator**  
+Reduces **database queries** by caching expenses.
+
+### ✅ **Implementation**
+```csharp
+public class ExpenseRepositoryCachingDecorator : IExpenseRepository
+{
+    private readonly IExpenseRepository _inner;
+    private readonly IMemoryCache _cache;
+
+    public ExpenseRepositoryCachingDecorator(IExpenseRepository inner, IMemoryCache cache)
+    {
+        _inner = inner;
+        _cache = cache;
+    }
+
+    public async Task<IEnumerable<Expense>> GetAllAsync()
+    {
+        return await _cache.GetOrCreateAsync("expenses_cache", async entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+            return await _inner.GetAllAsync();
+        });
+    }
+
+    public async Task<Expense> GetByIdAsync(int id)
+    {
+        return await _cache.GetOrCreateAsync($"expense_{id}", async entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+            return await _inner.GetByIdAsync(id);
+        });
+    }
+
+    public async Task AddAsync(Expense expense)
+    {
+        await _inner.AddAsync(expense);
+        _cache.Remove("expenses_cache");
+    }
+
+    public async Task UpdateAsync(Expense expense)
+    {
+        await _inner.UpdateAsync(expense);
+        _cache.Remove($"expense_{expense.Id}");
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        await _inner.DeleteAsync(id);
+        _cache.Remove($"expense_{id}");
+    }
+}
+```
+### ✅ **Usage**
+```csharp
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryCachingDecorator>();
+```
+📌 **Benefits:**  
+✔ Reduces **database load**  
+✔ Improves **API performance**  
+✔ Follows **OCP** (Open/Closed Principle)  
+
+---
+
+## **3️⃣ Validation Decorator**
+Ensures **expenses have valid data** before persisting.
+
+### ✅ **Implementation**
+```csharp
+public class ExpenseRepositoryValidationDecorator : IExpenseRepository
+{
+    private readonly IExpenseRepository _inner;
+
+    public ExpenseRepositoryValidationDecorator(IExpenseRepository inner)
+    {
+        _inner = inner;
+    }
+
+    public async Task AddAsync(Expense expense)
+    {
+        if (string.IsNullOrEmpty(expense.Title))
+            throw new ArgumentException("Title is required.");
+        if (expense.Amount <= 0)
+            throw new ArgumentException("Amount must be greater than zero.");
+
+        await _inner.AddAsync(expense);
+    }
+
+    public async Task<IEnumerable<Expense>> GetAllAsync() => await _inner.GetAllAsync();
+    public async Task<Expense> GetByIdAsync(int id) => await _inner.GetByIdAsync(id);
+    public async Task UpdateAsync(Expense expense) => await _inner.UpdateAsync(expense);
+    public async Task DeleteAsync(int id) => await _inner.DeleteAsync(id);
+}
+```
+### ✅ **Usage**
+```csharp
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryValidationDecorator>();
+```
+📌 **Benefits:**  
+✔ **Keeps validation separate** from repository logic  
+✔ **Prevents invalid data from entering the database**  
+
+---
+
+## **🎯 Why Use Decorator Pattern?**
+| **Pattern**   | **Use Case**                     | **Benefit**                         |
+|--------------|--------------------------------|----------------------------------|
+| **Logging**   | Log repository actions         | Non-intrusive, structured logs  |
+| **Caching**   | Reduce DB calls for reads      | Improves performance            |
+| **Validation** | Validate expenses before saving | Keeps concerns separate          |
+
+📌 **Best Part?** ✅ You can **stack multiple decorators together!**  
+Example:
+```csharp
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryValidationDecorator>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryCachingDecorator>();
+builder.Services.Decorate<IExpenseRepository, ExpenseRepositoryLoggingDecorator>();
+```
+✔ **Validation → Caching → Logging** in order 🔄  
+
+---
+
+### **🚀 Summary**
+🔹 The **Decorator Pattern** helps in **adding cross-cutting concerns dynamically**.  
+🔹 **No need to modify core repository code** – just wrap and extend!  
+🔹 Follows **OCP (Open/Closed Principle)** – Code is **open for extension, closed for modification**.  
+🔹 Improves **maintainability & testability**.  
+
+Would you like help implementing **unit tests** for these decorators? 🚀
+
+</details>
 
 
 ---
