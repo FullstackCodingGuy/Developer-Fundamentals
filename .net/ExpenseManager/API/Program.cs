@@ -34,7 +34,7 @@ var app = builder.Build();
 // Console.WriteLine(app.Environment.IsDevelopment().ToString());
 Console.WriteLine($"Running in {builder.Environment.EnvironmentName} mode");
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
