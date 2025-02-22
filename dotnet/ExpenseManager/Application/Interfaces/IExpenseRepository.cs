@@ -7,6 +7,7 @@ namespace ExpenseManager.Application.Interfaces
     public interface IExpenseRepository
     {
         Task<List<Expense>> GetAllAsync();
+        Task<List<Expense>> GetExpenses(int page, int pageSize);
         Task<Expense?> GetByIdAsync(int id);
         Task AddAsync(Expense expense);
         Task UpdateAsync(Expense expense);

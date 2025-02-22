@@ -16,9 +16,21 @@ namespace ExpenseManager.Infrastructure.Repositories
             _context = context;
         }
 
+        // Optimize Queries
+        // Use AsNoTracking() for read-only queries to avoid EF Core tracking changes
+        // var expenses = await _dbContext.Expenses.AsNoTracking().ToListAsync();
+
         public async Task<List<Expense>> GetAllAsync()
         {
             return await _context.Expenses.ToListAsync();
+        }
+
+        public async Task<List<Expense>> GetExpenses(int page, int pageSize)
+        {
+            return await _context.Expenses
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<Expense?> GetByIdAsync(int id)

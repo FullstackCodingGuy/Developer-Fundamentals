@@ -17,6 +17,16 @@ namespace ExpenseManager.Application.Services
 
         public async Task<List<Expense>> GetAllExpensesAsync() => await _expenseRepository.GetAllAsync();
 
+        /// <summary>
+        /// Get paginated list
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<List<Expense>> GetExpenses(int page, int pageSize)
+        {
+            return await _expenseRepository.GetExpenses(page, pageSize);
+        }
         public async Task<Expense?> GetExpenseByIdAsync(int id) => await _expenseRepository.GetByIdAsync(id);
 
         public async Task AddExpenseAsync(ExpenseDto expenseDto)

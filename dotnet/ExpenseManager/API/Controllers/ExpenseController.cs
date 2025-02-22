@@ -41,6 +41,7 @@ namespace ExpenseManager.API.Controllers
             return CreatedAtAction(nameof(GetAllExpenses), new { });
         }
 
+        [ResponseCache(Duration = 60)] // Cache for 60 seconds
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateExpense(int id, [FromBody] ExpenseDto expenseDto)
         {
