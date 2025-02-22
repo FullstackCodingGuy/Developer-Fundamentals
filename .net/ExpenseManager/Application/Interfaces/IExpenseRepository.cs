@@ -6,10 +6,10 @@ namespace ExpenseManager.Application.Interfaces
 {
     public interface IExpenseRepository
     {
-        Task<IEnumerable<Expense>> GetAllAsync();
-        Task<Expense> GetByIdAsync(int id);
+        Task<List<Expense>> GetAllAsync();
+        Task<Expense?> GetByIdAsync(int id);
         Task AddAsync(Expense expense);
         Task UpdateAsync(Expense expense);
-        Task DeleteAsync(Expense expense);
+        Task DeleteAsync(int id);
     }
 }

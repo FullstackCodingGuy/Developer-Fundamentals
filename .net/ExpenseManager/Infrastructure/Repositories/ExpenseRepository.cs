@@ -10,36 +10,39 @@ namespace ExpenseManager.Infrastructure.Repositories
     {
         private readonly List<Expense> _expenses = new();
 
-        public Task<IEnumerable<Expense>> GetAllAsync()
+        public async Task<List<Expense>> GetAllAsync() => await Task.FromResult(_expenses);
+
+        public async Task<Expense?> GetByIdAsync(int id) => await Task.FromResult(_expenses.FirstOrDefault(e => e.Id == id));
+
+        public async Task AddAsync(Expense expense)
         {
-            return Task.FromResult(_expenses.AsEnumerable());
+            expense.Id = _expenses.Count + 1;
+            _expenses.Add(expense);
+            await Task.CompletedTask;
         }
 
-        public Task<Expense> GetByIdAsync(int id)
+        public async Task UpdateAsync(Expense expense)
+        {
+            var existingExpense = _expenses.FirstOrDefault(e => e.Id == expense.Id);
+            if (existingExpense != null)
+            {
+                existingExpense.Title = expense.Title;
+                existingExpense.Description = expense.Description;
+                existingExpense.Date = expense.Date;
+                existingExpense.Amount = expense.Amount;
+                existingExpense.Category = expense.Category;
+            }
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteAsync(int id)
         {
             var expense = _expenses.FirstOrDefault(e => e.Id == id);
-            return Task.FromResult(expense);
-        }
-
-        public Task AddAsync(Expense expense)
-        {
-            expense.Id = _expenses.Any() ? _expenses.Max(e => e.Id) + 1 : 1;
-            _expenses.Add(expense);
-            return Task.CompletedTask;
-        }
-
-        public Task UpdateAsync(Expense expense)
-        {
-            var index = _expenses.FindIndex(e => e.Id == expense.Id);
-            if (index >= 0)
-                _expenses[index] = expense;
-            return Task.CompletedTask;
-        }
-
-        public Task DeleteAsync(Expense expense)
-        {
-            _expenses.Remove(expense);
-            return Task.CompletedTask;
+            if (expense != null)
+            {
+                _expenses.Remove(expense);
+            }
+            await Task.CompletedTask;
         }
     }
 }

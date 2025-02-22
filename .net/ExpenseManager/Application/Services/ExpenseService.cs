@@ -15,72 +15,38 @@ namespace ExpenseManager.Application.Services
             _expenseRepository = expenseRepository;
         }
 
-        public async Task<IEnumerable<ExpenseDto>> GetExpensesAsync()
-        {
-            var expenses = await _expenseRepository.GetAllAsync();
-            return expenses.Select(e => new ExpenseDto
-            {
-                Id = e.Id,
-                Amount = e.Amount,
-                Description = e.Description,
-                Date = e.Date,
-                Category = e.Category
-            });
-        }
+        public async Task<List<Expense>> GetAllExpensesAsync() => await _expenseRepository.GetAllAsync();
 
-        public async Task<ExpenseDto> GetExpenseByIdAsync(int id)
-        {
-            var expense = await _expenseRepository.GetByIdAsync(id);
-            if (expense == null) return null;
+        public async Task<Expense?> GetExpenseByIdAsync(int id) => await _expenseRepository.GetByIdAsync(id);
 
-            return new ExpenseDto
-            {
-                Id = expense.Id,
-                Amount = expense.Amount,
-                Description = expense.Description,
-                Date = expense.Date,
-                Category = expense.Category
-            };
-        }
-
-        public async Task<ExpenseDto> CreateExpenseAsync(ExpenseDto expenseDto)
+        public async Task AddExpenseAsync(ExpenseDto expenseDto)
         {
             var expense = new Expense
             {
-                Amount = expenseDto.Amount,
+                Title = expenseDto.Title,
                 Description = expenseDto.Description,
                 Date = expenseDto.Date,
+                Amount = expenseDto.Amount,
                 Category = expenseDto.Category
             };
-
             await _expenseRepository.AddAsync(expense);
-            expenseDto.Id = expense.Id;
-            return expenseDto;
         }
 
-        public async Task<bool> UpdateExpenseAsync(int id, ExpenseDto expenseDto)
+        public async Task UpdateExpenseAsync(int id, ExpenseDto expenseDto)
         {
-            var expense = await _expenseRepository.GetByIdAsync(id);
-            if (expense == null)
-                return false;
+            var existingExpense = await _expenseRepository.GetByIdAsync(id);
+            if (existingExpense != null)
+            {
+                existingExpense.Title = expenseDto.Title;
+                existingExpense.Description = expenseDto.Description;
+                existingExpense.Date = expenseDto.Date;
+                existingExpense.Amount = expenseDto.Amount;
+                existingExpense.Category = expenseDto.Category;
 
-            expense.Amount = expenseDto.Amount;
-            expense.Description = expenseDto.Description;
-            expense.Date = expenseDto.Date;
-            expense.Category = expenseDto.Category;
-
-            await _expenseRepository.UpdateAsync(expense);
-            return true;
+                await _expenseRepository.UpdateAsync(existingExpense);
+            }
         }
 
-        public async Task<bool> DeleteExpenseAsync(int id)
-        {
-            var expense = await _expenseRepository.GetByIdAsync(id);
-            if (expense == null)
-                return false;
-
-            await _expenseRepository.DeleteAsync(expense);
-            return true;
-        }
+        public async Task DeleteExpenseAsync(int id) => await _expenseRepository.DeleteAsync(id);
     }
 }
