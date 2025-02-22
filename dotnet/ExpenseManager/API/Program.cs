@@ -14,7 +14,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Serilog;
-
+using Scrutor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +40,10 @@ var connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? "
 builder.Services.AddDbContext<ExpenseDbContext>(options =>
     options.UseSqlite(connectionString));
 
-builder.Services.AddResponseCaching();
+builder.Services.AddResponseCaching(); // Enable Response caching
+
+builder.Services.AddMemoryCache(); // Enable in-memory caching
+
 
 // ✅ Add CORS policy
 // WithOrigins("https://yourfrontend.com") → Restricts access to a specific frontend.
@@ -100,6 +103,9 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 // Add services to the container
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.Decorate<ICategoryRepository, CategoryRepositoryCachingDecorator>();
 
 // Use System.Text.Json instead of Newtonsoft.Json for better performance.
 

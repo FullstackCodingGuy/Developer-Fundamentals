@@ -15,6 +15,7 @@ namespace ExpenseManager.Infrastructure.Persistence
     }
 
     public DbSet<Expense> Expenses { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,6 +31,7 @@ namespace ExpenseManager.Infrastructure.Persistence
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Expense>().ToTable("Expenses");
+        modelBuilder.Entity<Category>().ToTable("Categories");
     }
 }
 }
