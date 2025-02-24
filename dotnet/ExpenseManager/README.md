@@ -176,6 +176,12 @@ builder.Services.AddDbContextPool<ExpenseDbContext>(options =>
 
 ------
 
+### Implementing design patterns in this solution
+<details>
+<summary>read</summary>
+
+
+
 For your **Expense Manager API**, here are some **design patterns** that can be implemented to improve **maintainability, scalability, and testability** while adhering to **SOLID principles**:
 
 ---
@@ -378,6 +384,9 @@ public class ExpenseNotifier
 | **Observer** | Notify other services | Enables event-driven architecture |
 
 ---
+
+
+</details>
 
 ### Applying Decorator Pattern
 
