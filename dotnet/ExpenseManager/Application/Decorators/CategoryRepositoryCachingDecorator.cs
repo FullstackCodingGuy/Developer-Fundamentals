@@ -1,7 +1,6 @@
 using ExpenseManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 public class CategoryRepositoryCachingDecorator : ICategoryRepository
@@ -27,5 +26,25 @@ public class CategoryRepositoryCachingDecorator : ICategoryRepository
             entry.AbsoluteExpirationRelativeToNow = CacheDuration;
             return await _inner.GetAllAsync();
         });
+    }
+
+    public Task<Category> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task AddAsync(Category category)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(Category category)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
     }
 }

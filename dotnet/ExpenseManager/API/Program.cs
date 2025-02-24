@@ -105,7 +105,8 @@ builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.Decorate<ICategoryRepository, CategoryRepositoryCachingDecorator>();
+// builder.Services.Decorate<ICategoryRepository, CategoryRepositoryCachingDecorator>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Use System.Text.Json instead of Newtonsoft.Json for better performance.
 
