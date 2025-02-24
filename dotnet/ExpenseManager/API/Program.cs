@@ -259,5 +259,8 @@ app.Use(async (context, next) =>
 app.MapGet("/secure", () => "You are authenticated!")
     .RequireAuthorization(); // Protect this endpoint
 
+app.MapGet("/admin", () => "Welcome Admin!")
+    .RequireAuthorization(policy => policy.RequireRole("admin"));
+
 
 app.Run();

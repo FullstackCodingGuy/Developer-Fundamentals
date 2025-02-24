@@ -605,3 +605,73 @@ DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 2025-02-24 16:05:28.268 +05:30 [INF] Executed endpoint 'HTTP: GET /secure'
 2025-02-24 16:05:28.269 +05:30 [INF] HTTP GET /secure responded 200 in 94.2507 ms
 2025-02-24 16:05:28.270 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/secure - 200 null text/plain; charset=utf-8 97.027ms
+2025-02-24 16:07:44.735 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-02-24 16:07:44.870 +05:30 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2025-02-24 16:07:44.880 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2025-02-24 10:37:44.877518+00:00');
+SELECT changes();
+2025-02-24 16:07:44.972 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2025-02-24 16:07:44.981 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2025-02-24 16:07:44.985 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-02-24 16:07:44.995 +05:30 [INF] No migrations were applied. The database is already up to date.
+2025-02-24 16:07:44.996 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2025-02-24 16:07:45.063 +05:30 [INF] User profile is available. Using '/Users/dhamodharabalaji/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-02-24 16:07:45.664 +05:30 [INF] Now listening on: https://localhost:5001
+2025-02-24 16:07:45.664 +05:30 [INF] Now listening on: http://localhost:5000
+2025-02-24 16:07:45.667 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2025-02-24 16:07:45.667 +05:30 [INF] Hosting environment: Development
+2025-02-24 16:07:45.667 +05:30 [INF] Content root path: /Users/dhamodharabalaji/Desktop/Workspace/Github/Developer-Fundamentals/dotnet/ExpenseManager/API
+2025-02-24 16:07:52.841 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/secure - null null
+2025-02-24 16:07:53.341 +05:30 [INF] Executing endpoint 'HTTP: GET /secure'
+2025-02-24 16:07:53.389 +05:30 [INF] Executed endpoint 'HTTP: GET /secure'
+2025-02-24 16:07:53.394 +05:30 [INF] HTTP GET /secure responded 200 in 506.2610 ms
+2025-02-24 16:07:53.405 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/secure - 200 null text/plain; charset=utf-8 566.9154ms
+2025-02-24 16:08:02.426 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/admin - null null
+2025-02-24 16:08:02.430 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (admin)
+2025-02-24 16:08:02.436 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2025-02-24 16:08:02.436 +05:30 [INF] HTTP GET /admin responded 401 in 8.2435 ms
+2025-02-24 16:08:02.436 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/admin - 401 0 null 10.3372ms
+2025-02-24 16:10:16.720 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/admin - null null
+2025-02-24 16:10:16.725 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (admin)
+2025-02-24 16:10:16.726 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2025-02-24 16:10:16.726 +05:30 [INF] HTTP GET /admin responded 401 in 4.7453 ms
+2025-02-24 16:10:16.726 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/admin - 401 0 null 6.7763ms
+2025-02-24 16:10:17.856 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/admin - null null
+2025-02-24 16:10:17.857 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (admin)
+2025-02-24 16:10:17.857 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2025-02-24 16:10:17.857 +05:30 [INF] HTTP GET /admin responded 401 in 0.3752 ms
+2025-02-24 16:10:17.857 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/admin - 401 0 null 0.8018ms
+2025-02-24 16:10:22.490 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/secure - null null
+2025-02-24 16:10:22.493 +05:30 [INF] Executing endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:22.494 +05:30 [INF] Executed endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:22.494 +05:30 [INF] HTTP GET /secure responded 200 in 3.8340 ms
+2025-02-24 16:10:22.494 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/secure - 200 null text/plain; charset=utf-8 4.2328ms
+2025-02-24 16:10:33.126 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/secure - null null
+2025-02-24 16:10:33.128 +05:30 [INF] Executing endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:33.129 +05:30 [INF] Executed endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:33.129 +05:30 [INF] HTTP GET /secure responded 200 in 2.1414 ms
+2025-02-24 16:10:33.129 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/secure - 200 null text/plain; charset=utf-8 3.403ms
+2025-02-24 16:10:36.841 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/secure - null null
+2025-02-24 16:10:36.842 +05:30 [INF] Executing endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:36.842 +05:30 [INF] Executed endpoint 'HTTP: GET /secure'
+2025-02-24 16:10:36.842 +05:30 [INF] HTTP GET /secure responded 200 in 1.1587 ms
+2025-02-24 16:10:36.842 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/secure - 200 null text/plain; charset=utf-8 1.8ms
+2025-02-24 16:10:40.123 +05:30 [INF] Request starting HTTP/1.1 GET https://localhost:5001/admin - null null
+2025-02-24 16:10:40.124 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (admin)
+2025-02-24 16:10:40.124 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2025-02-24 16:10:40.124 +05:30 [INF] HTTP GET /admin responded 401 in 0.4717 ms
+2025-02-24 16:10:40.125 +05:30 [INF] Request finished HTTP/1.1 GET https://localhost:5001/admin - 401 0 null 1.3076ms
