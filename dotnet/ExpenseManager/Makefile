@@ -8,3 +8,7 @@ resetmigrations:
 	dotnet ef database update --project Infrastructure --startup-project API
 start:
 	dotnet run --project API
+dockerbuild:
+	docker build -t expense-api .
+dockerrun:
+	docker run -d -p 8080:8080 --name expense-api-container expense-api

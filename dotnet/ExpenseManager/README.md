@@ -49,6 +49,20 @@ dotnet run
 The API will be available at **`http://localhost:5000`**
 
 ---
+
+### Run the API using Docker
+```
+make dockerrun
+
+or 
+
+docker run -d -p 8080:8080 --name expense-api-container expense-api
+
+The API will now be accessible at: http://localhost:8080
+
+```
+
+---
 ## 📌 SQLite Persistence
 The API uses **SQLite** for data persistence. The database file (`expense.db`) is automatically created upon running the migrations.
 
