@@ -15,6 +15,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 using Scrutor;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,7 @@ var configuration = builder.Configuration;
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()   // Log to console
     .WriteTo.File("logs/api-log.txt", rollingInterval: RollingInterval.Day) // Log to a file (daily rotation)
-    //.WriteTo.Seq("http://localhost:5341")  // Optional: Centralized logging with Seq
+                                                                            //.WriteTo.Seq("http://localhost:5341")  // Optional: Centralized logging with Seq
     .Enrich.FromLogContext()
     .MinimumLevel.Information()
     .CreateLogger();
@@ -70,6 +71,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+// -----------------------------------------------------------------------------------------
+
 // Use Rate Limiting
 // Prevent API abuse by implementing rate limiting
 // Add Rate Limiting Middleware
@@ -100,14 +103,49 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Limits.MaxRequestBodySize = 100_000_000;
 });
 
+// -----------------------------------------------------------------------------------------
+
 // Add services to the container
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
-builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
+// -----------------------------------------------------------------------------------------
+
+// Approach 1 - Injecting the implementation based on app settings during the app bootstrap
+bool UseExpenseServiceApi = builder.Configuration.GetValue<bool>("UseExpenseServiceApi");
+
+if (UseExpenseServiceApi)
+{
+    builder.Services.AddScoped<IExpenseService, ExpenseServiceApi>();
+
+    // Another way to create the implementation
+    // services.AddScoped<IExpenseService>(provider =>
+    // {
+    //     var innerService = provider.GetRequiredService<ExpenseService>();
+    //     var logger = provider.GetRequiredService<ILogger<LoggingExpenseServiceDecorator>>();
+    //     return new LoggingExpenseServiceDecorator(innerService, logger);
+    // });
+}
+else
+{
+    builder.Services.AddScoped<IExpenseService, ExpenseService>();
+}
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-// builder.Services.Decorate<ICategoryRepository, CategoryRepositoryCachingDecorator>();
+
+// Approach 2 - Injecting the decorator implementation by condition
+var useCategoryCachingDecorator = builder.Configuration.GetValue<bool>("UseCategoryCachingDecorator"); // if true - CategoryRepositoryCachingDecorator will handle, if false - CategoryRepository will handle the request
+
+if (useCategoryCachingDecorator)
+{
+    builder.Services.Decorate<ICategoryRepository, CategoryRepositoryCachingDecorator>();
+}
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+// READ MORE about injecting multiple dependencies and consuming them 
+// https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/.NET#how-to-register-multiple-implementations-for-the-same-interface-and-resolve-it
+
+// -----------------------------------------------------------------------------------------
 // Use System.Text.Json instead of Newtonsoft.Json for better performance.
 
 // Enable reference handling and lower casing for smaller responses:
@@ -132,6 +170,8 @@ builder.Services.AddResponseCompression(options =>
 });
 
 var app = builder.Build();
+
+// -----------------------------------------------------------------------------------------
 
 // ✅ Use Serilog Request Logging Middleware
 app.UseSerilogRequestLogging();
