@@ -12,3 +12,10 @@ dockerbuild:
 	docker build -t expense-api .
 dockerrun:
 	docker run -d -p 8080:8080 --name expense-api-container expense-api
+generatetoken:
+	curl -X POST "http://localhost:8080/realms/master/protocol/openid-connect/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "client_id=my-dotnet-api" \
+     -d "grant_type=password" \
+     -d "username=devuser1" \
+     -d "password=Test@1234"

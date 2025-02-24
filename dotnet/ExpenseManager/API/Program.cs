@@ -17,6 +17,11 @@ using Serilog;
 using Scrutor;
 using Microsoft.Extensions.Configuration;
 
+// For Authentication
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -34,6 +39,28 @@ Log.Logger = new LoggerConfiguration()
 
 // ✅ Replace default logging with Serilog
 builder.Host.UseSerilog();
+
+// -----------------------------------------------------------------------------------------
+
+// Add Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "http://localhost:8080/realms/master";
+        options.Audience = "my-dotnet-api"; // Must match the Keycloak Client ID
+        options.RequireHttpsMetadata = false; // Disable in development
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidAudiences = new string[] { "master-realm", "account", "my-dotnet-api" },
+            ValidateIssuerSigningKey = true
+        };
+    });
+
+builder.Services.AddAuthorization();
+// -----------------------------------------------------------------------------------------
 
 // ✅ Use proper configuration access for connection string
 var connectionString = configuration["ConnectionStrings:DefaultConnection"] ?? "Data Source=expensemanager.db";
@@ -179,6 +206,14 @@ app.UseSerilogRequestLogging();
 // Console.WriteLine(app.Environment.IsDevelopment().ToString());
 Console.WriteLine($"Running in {builder.Environment.EnvironmentName} mode");
 
+// -----------------------------------------------------------------------------------------
+// Apply Authentication Middleware
+
+app.UseAuthentication(); 
+app.UseAuthorization();
+
+// -----------------------------------------------------------------------------------------
+
 var IsDevelopment = app.Environment.IsDevelopment();
 
 if (IsDevelopment)
@@ -193,7 +228,6 @@ app.UseCors(IsDevelopment ? "AllowAll" : "AllowSpecificOrigins"); // Apply the s
 app.UseResponseCaching();
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 
 // Console.WriteLine(app.Environment.IsDevelopment().ToString());
@@ -220,6 +254,10 @@ app.Use(async (context, next) =>
     context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
     await next();
 });
+
+
+app.MapGet("/secure", () => "You are authenticated!")
+    .RequireAuthorization(); // Protect this endpoint
 
 
 app.Run();

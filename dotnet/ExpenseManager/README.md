@@ -606,6 +606,11 @@ Would you like help implementing **unit tests** for these decorators? 🚀
 
 </details>
 
+---
+
+## Implementing Authentication
+
+- https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Authentication#implementing-keycloak-in-a-net-9-api-solution
 
 ---
 ## 📌 License
