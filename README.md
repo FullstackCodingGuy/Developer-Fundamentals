@@ -8,7 +8,7 @@ Education material for the developers
 
 [Cloud Services Comparison](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Cloud-Services-Comparison)
 
-## Real World Scenarios
+## Topics
 
 - [ ] GitOps
 - [ ] DevSecOps
