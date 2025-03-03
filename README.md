@@ -130,6 +130,4 @@ Education material for the developers
 
 
 ## References 
-- https://github.com/ardalis/CleanArchitecture/tree/main
-- https://github.com/amantinband/clean-architecture
 - [General Comparison of various tools/libraries/software - Pros, Cons](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Fundamentals#general-comparison-of-various-toolslibrariessoftware---pros-cons)
