@@ -12,7 +12,8 @@ Education material for the developers
 
 - [ ] GitOps
 - [ ] DevSecOps
-- [ ] Automated Deployment
+- [ ] Deployment
+  - [x] [ECS, EKS - Comparison, Cost Analysis, Metrics, Deployment plan, Sample](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/AWS-%E2%80%90-ECS-vs-EKS)
   - [ ] [Podman](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Podman)
   - [ ] Kubernetes
   - [ ] ArgoCD
