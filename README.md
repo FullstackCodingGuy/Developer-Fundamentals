@@ -12,6 +12,8 @@ Education material for the developers
 
 - [ ] GitOps
 - [ ] DevSecOps
+- [ ] AWS
+  - [ ] [S3 - Simple Storage Service](https://github.com/codeandwhisky/Developer-Fundamentals/wiki/AWS-%E2%80%90-S3)
 - [ ] Deployment
   - [x] [ECS, EKS - Comparison, Cost Analysis, Metrics, Deployment plan, Sample](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/AWS-%E2%80%90-ECS-vs-EKS)
   - [ ] [Podman](https://github.com/FullstackCodingGuy/Developer-Fundamentals/wiki/Podman)
